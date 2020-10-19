@@ -1,12 +1,5 @@
-﻿using Microsoft.Identity.Client;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BlackBoardWinForms
@@ -18,15 +11,21 @@ namespace BlackBoardWinForms
             InitializeComponent();
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+        }
+
         private async void button1_Click(object sender, EventArgs e)
         {
-            var publicClientApp = BlackBoardApplication.PublicClientApp;
+            //var options = new SystemWebViewOptions()
+            //{
+            //    OpenBrowserAsync = new func<Uri,>
+            //};
+
             try
             {
-                var accounts = (await publicClientApp.GetAccountsAsync()).ToList();
-
-                var authResult = await publicClientApp.AcquireTokenInteractive(BlackBoardApplication.Scopes)
-                    .ExecuteAsync();
+                var result = await BlackBoardApplication.TryLoginAsync();
+                var userLoginInfo = await BlackBoardApplication.GetUserLoginInfoAsync();
             }
             catch (Exception)
             {
