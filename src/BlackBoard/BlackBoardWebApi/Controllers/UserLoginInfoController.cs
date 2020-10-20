@@ -31,9 +31,12 @@ namespace BlackBoardWebApi.Controllers
             var userLoginInfo = UserLoginInfoStore.Where(t => t.UserId == userId).FirstOrDefault();
             if (userLoginInfo is null)
             {
-                userLoginInfo.Name = userId;
-                userLoginInfo.UserId = userId;
-                userLoginInfo.Blackboard = $"Created at {DateTimeOffset.Now} ";
+                userLoginInfo = new UserLoginInfo();
+                userLoginInfo.Name = User.Claims.Where(item => item.Type == "name").FirstOrDefault()?.Value;
+                userLoginInfo.UserId = User.Claims.Where(item => item.Type == "preferred_username").FirstOrDefault()?.Value;
+                var blackboardHeadline = $"{userLoginInfo.Name}'s Blackboard Created at {DateTimeOffset.Now}";
+                blackboardHeadline += $"\n\r{(new string('*', blackboardHeadline.Length))}";
+                userLoginInfo.Blackboard = blackboardHeadline;
                 UserLoginInfoStore.Add(userLoginInfo);
             }
 
@@ -50,6 +53,7 @@ namespace BlackBoardWebApi.Controllers
 
             if (userLoginInfo is null)
             {
+                userLoginInfo = new UserLoginInfo();
                 userLoginInfo.Name = userId;
                 userLoginInfo.UserId = userId;
                 userLoginInfo.Blackboard = passedLoginInfo.Blackboard;

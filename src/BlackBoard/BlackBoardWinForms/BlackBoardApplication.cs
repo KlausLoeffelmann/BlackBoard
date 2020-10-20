@@ -1,6 +1,8 @@
 ﻿using BlackBoardWebApi.Model;
 using Microsoft.Identity.Client;
+using Microsoft.Identity.Client.Extensibility;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
@@ -28,8 +30,8 @@ namespace BlackBoardWinForms
         private static readonly string s_authority = string.Format(CultureInfo.InvariantCulture, s_instance, s_tenant);
 
         // change this to the Azure Web App address for deployment.
-        // private static readonly string s_webApiBaseAddress = "http://localhost";
-        private static readonly string s_webApiBaseAddress = "https://blackboardwebapi.azurewebsites.net";
+        private static readonly string s_webApiBaseAddress = "https://localhost:44351";
+        // private static readonly string s_webApiBaseAddress = "https://blackboardwebapi.azurewebsites.net";
         private static IPublicClientApplication s_clientApp;
         private static HttpClient HttpClient { get; } = new HttpClient();
         private static bool IsLoggedIn { get; set; }
@@ -44,9 +46,23 @@ namespace BlackBoardWinForms
             TokenCacheHelper.EnableSerialization(s_clientApp.UserTokenCache);
         }
 
-        internal static async Task<AuthenticationResult> TryLoginAsync()
+        internal static async Task ClearAccountsAsync(IEnumerable<IAccount> accounts)
+        {
+            foreach (var account in accounts)
+            {
+                await PublicClientApp.RemoveAsync(account);
+            }
+        }
+
+        internal static async Task<AuthenticationResult> TryLoginAsync(frmWebLogin webLoginFormCreatedOnUIThread)
         {
             var accounts = (await PublicClientApp.GetAccountsAsync()).ToList();
+
+            if (accounts?.Count > 0)
+            {
+                await ClearAccountsAsync(accounts);
+            }
+
             AuthenticationResult authResult = null;
 
             try
@@ -59,7 +75,7 @@ namespace BlackBoardWinForms
                 try
                 {
                     authResult = await PublicClientApp.AcquireTokenInteractive(BlackBoardApplication.Scopes)
-                        .WithUseEmbeddedWebView(false)
+                        .WithCustomWebUi(webLoginFormCreatedOnUIThread)
                         .ExecuteAsync();
                 }
                 catch (System.Exception)
