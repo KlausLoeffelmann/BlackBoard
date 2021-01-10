@@ -38,6 +38,10 @@ namespace BlackBoardWinForms
 
         static BlackBoardApplication()
         {
+        }
+
+        public static void Initialize()
+        {
             s_clientApp = PublicClientApplicationBuilder.Create(s_clientId)
                 .WithAuthority(s_authority)
                 .WithDefaultRedirectUri()

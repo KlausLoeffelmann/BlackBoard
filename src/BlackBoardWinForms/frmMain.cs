@@ -26,6 +26,7 @@ namespace BlackBoardWinForms
                 var loginBrowser = new frmWebLogin();
                 loginBrowser.Show();
                 await loginBrowser.WaitForInitializeAsync();
+                BlackBoardApplication.Initialize();
                 var result = await BlackBoardApplication.TryLoginAsync(loginBrowser);
                 loginBrowser.Close();
                 var userLoginInfo = await BlackBoardApplication.GetUserLoginInfoAsync();
