@@ -1,15 +1,15 @@
-﻿using BlackBoard.ViewModels;
+﻿using Blackboard.ViewModels;
 using System.ComponentModel;
 using Xamarin.Forms;
 
-namespace BlackBoard.Views
+namespace Blackboard.Views
 {
     public partial class ItemDetailPage : ContentPage
     {
         public ItemDetailPage()
         {
             InitializeComponent();
-            BindingContext = new ItemDetailViewModel();
+            //BindingContext = new ItemDetailViewModel();
         }
     }
 }

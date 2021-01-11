@@ -1,38 +1,31 @@
-﻿using Microsoft.Identity.Client;
+﻿using Blackboard.ClientServices.ViewModels;
 using System;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BlackBoardWinForms
 {
     public partial class Form1 : Form
     {
+        private LoginViewModel _loginViewModel = new LoginViewModel();
+
         public Form1()
         {
             InitializeComponent();
+            _loginViewModel.Initialize();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private async void Form1_Load(object sender, EventArgs e)
         {
-            
-        }
-
-        private async void button1_Click(object sender, EventArgs e)
-        {
-
             try
             {
                 var loginBrowser = new frmWebLogin();
                 loginBrowser.Show();
                 await loginBrowser.WaitForInitializeAsync();
-                BlackBoardApplication.Initialize();
-                var result = await BlackBoardApplication.TryLoginAsync(loginBrowser);
+                var result = await _loginViewModel.LoginAsync(loginBrowser);
                 loginBrowser.Close();
-                var userLoginInfo = await BlackBoardApplication.GetUserLoginInfoAsync();
 
-                txtBlackboard.Text = userLoginInfo.Blackboard;
-                lblLoginInfo.Text = $"{userLoginInfo.Name} - ({userLoginInfo.UserId})";
+                // Populate Data.
+                loginViewModelBindingSource.DataSource = _loginViewModel;
             }
             catch (Exception)
             {

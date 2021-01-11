@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BlackBoard.Models
+namespace Blackboard.Models
 {
     public class Item
     {

@@ -1,10 +1,10 @@
-﻿using BlackBoard.Services;
-using BlackBoard.Views;
+﻿using Blackboard.Services;
+using Blackboard.Views;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace BlackBoard
+namespace Blackboard
 {
     public partial class App : Application
     {
@@ -13,7 +13,7 @@ namespace BlackBoard
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
+            //DependencyService.Register<MockDataStore>();
             MainPage = new AppShell();
         }
 

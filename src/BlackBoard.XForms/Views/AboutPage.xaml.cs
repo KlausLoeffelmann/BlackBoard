@@ -3,7 +3,7 @@ using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace BlackBoard.Views
+namespace Blackboard.Views
 {
     public partial class AboutPage : ContentPage
     {

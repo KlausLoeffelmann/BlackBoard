@@ -1,10 +1,10 @@
-﻿using BlackBoard.ViewModels;
-using BlackBoard.Views;
+﻿using Blackboard.ViewModels;
+using Blackboard.Views;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
-namespace BlackBoard
+namespace Blackboard
 {
     public partial class AppShell : Xamarin.Forms.Shell
     {

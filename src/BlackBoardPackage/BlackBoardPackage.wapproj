@@ -55,7 +55,7 @@
     <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <EntryPointProjectUniqueName>..\BlackBoardWinForms\BlackBoardWinForms.csproj</EntryPointProjectUniqueName>
+    <EntryPointProjectUniqueName>..\Blackboard.WinForms\Blackboard.WinForms.csproj</EntryPointProjectUniqueName>
     <PackageCertificateThumbprint>6D16756289D97A3E8B97C2F06D0CC37C75CC85AB</PackageCertificateThumbprint>
   </PropertyGroup>
   <ItemGroup>
@@ -74,7 +74,7 @@
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BlackBoardWinForms\BlackBoardWinForms.csproj">
+    <ProjectReference Include="..\Blackboard.WinForms\Blackboard.WinForms.csproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
     </ProjectReference>
   </ItemGroup>

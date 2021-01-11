@@ -5,9 +5,9 @@ using System.IO;
 using System.Security.Cryptography;
 using Microsoft.Identity.Client;
 
-namespace BlackBoardWinForms
+namespace Blackboard.ClientServices
 {
-    static class TokenCacheHelper
+    static public class TokenCacheHelper
     { 
         /// <summary>
         /// Path to the token cache
@@ -44,7 +44,7 @@ namespace BlackBoardWinForms
                 }
             }
         }
-        internal static void EnableSerialization(ITokenCache tokenCache)
+        public static void EnableSerialization(ITokenCache tokenCache)
         {
             tokenCache.SetBeforeAccess(BeforeAccessNotification);
             tokenCache.SetAfterAccess(AfterAccessNotification);

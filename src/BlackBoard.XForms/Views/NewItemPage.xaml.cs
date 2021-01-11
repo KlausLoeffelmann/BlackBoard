@@ -1,12 +1,12 @@
-﻿using BlackBoard.Models;
-using BlackBoard.ViewModels;
+﻿using Blackboard.Models;
+using Blackboard.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace BlackBoard.Views
+namespace Blackboard.Views
 {
     public partial class NewItemPage : ContentPage
     {
@@ -15,7 +15,7 @@ namespace BlackBoard.Views
         public NewItemPage()
         {
             InitializeComponent();
-            BindingContext = new NewItemViewModel();
+            //BindingContext = new NewItemViewModel();
         }
     }
 }

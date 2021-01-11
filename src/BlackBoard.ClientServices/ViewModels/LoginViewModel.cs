@@ -1,4 +1,5 @@
-﻿using BlackBoardWebApi.Model;
+﻿using Blackboard.ViewModels;
+using BlackboardWebApi.Model;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensibility;
 using Newtonsoft.Json;
@@ -9,10 +10,19 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace BlackBoardWinForms
+#if NETSTANDARD2_0
+namespace Blackboard.ClientServices.ViewModels
+#else
+using Blackboard.ClientServices;
+
+namespace Blackboard.WinForms
+#endif
 {
-    internal class BlackBoardApplication
+    public class LoginViewModel : BaseViewModel
     {
+        internal static string[] Scopes { get; } = new[] { s_scope };
+        internal static string UserLoginInfoApiAddress => $"{s_webApiBaseAddress}/api/userinfo";
+
         // Client ID from the Azure Web Portal App Registration.
         private static string s_clientId = "963d0788-3eaf-4a00-b692-955e2f68de03";
 
@@ -32,25 +42,27 @@ namespace BlackBoardWinForms
         // change this to the Azure Web App address for deployment.
         private static readonly string s_webApiBaseAddress = "https://localhost:44351";
         // private static readonly string s_webApiBaseAddress = "https://blackboardwebapi.azurewebsites.net";
-        private static IPublicClientApplication s_clientApp;
-        private static HttpClient HttpClient { get; } = new HttpClient();
-        private static bool IsLoggedIn { get; set; }
 
-        static BlackBoardApplication()
-        {
-        }
+        private IPublicClientApplication _clientApp;
+        private bool _isLoggedIn;
+        private string _loginStatus;
+        private string _frontPageContent;
+        private string _loginInfo;
 
-        public static void Initialize()
+        private HttpClient HttpClient { get; } = new HttpClient();
+        public IPublicClientApplication PublicClientApp => _clientApp;
+
+        public void Initialize()
         {
-            s_clientApp = PublicClientApplicationBuilder.Create(s_clientId)
+            _clientApp = PublicClientApplicationBuilder.Create(s_clientId)
                 .WithAuthority(s_authority)
                 .WithDefaultRedirectUri()
                 .Build();
 
-            TokenCacheHelper.EnableSerialization(s_clientApp.UserTokenCache);
+            TokenCacheHelper.EnableSerialization(_clientApp.UserTokenCache);
         }
 
-        internal static async Task ClearAccountsAsync(IEnumerable<IAccount> accounts)
+        internal async Task ClearAccountsAsync(IEnumerable<IAccount> accounts)
         {
             foreach (var account in accounts)
             {
@@ -58,7 +70,24 @@ namespace BlackBoardWinForms
             }
         }
 
-        internal static async Task<AuthenticationResult> TryLoginAsync(frmWebLogin webLoginFormCreatedOnUIThread)
+        private async Task<UserInfo> GetUserLoginInfoAsync()
+        {
+            if (IsLoggedIn)
+            {
+                HttpResponseMessage response = await HttpClient.GetAsync(UserLoginInfoApiAddress);
+                if (response.IsSuccessStatusCode)
+                {
+                    string s = await response.Content.ReadAsStringAsync();
+                    var userLoginInfo = JsonConvert.DeserializeObject<UserInfo>(s);
+
+                    return userLoginInfo;
+                }
+            }
+
+            return null;
+        }
+
+        public async Task<AuthenticationResult> LoginAsync(ICustomWebUi webLoginFormCreatedOnUIThread)
         {
             var accounts = (await PublicClientApp.GetAccountsAsync()).ToList();
 
@@ -78,7 +107,7 @@ namespace BlackBoardWinForms
             {
                 try
                 {
-                    authResult = await PublicClientApp.AcquireTokenInteractive(BlackBoardApplication.Scopes)
+                    authResult = await PublicClientApp.AcquireTokenInteractive(Scopes)
                         .WithCustomWebUi(webLoginFormCreatedOnUIThread)
                         .ExecuteAsync();
                 }
@@ -93,6 +122,11 @@ namespace BlackBoardWinForms
                 // Once the token has been returned by MSAL, add it to the http authorization header, before making the call to access the To Do list service.
                 HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authResult.AccessToken);
                 IsLoggedIn = true;
+
+                // Now get the Info from the WebService to fill the Data of the ViewModel.
+                var userInfo = await GetUserLoginInfoAsync();
+                LoginInfo = $"{userInfo.Name}, {userInfo.FirstName} - {userInfo.Email}";
+                FrontPageContent = userInfo.FrontPage;
             }
             else
             {
@@ -102,25 +136,31 @@ namespace BlackBoardWinForms
             return authResult;
         }
 
-        public static async Task<UserLoginInfo> GetUserLoginInfoAsync()
+        public bool IsLoggedIn
         {
-            if (IsLoggedIn)
-            {
-                HttpResponseMessage response = await HttpClient.GetAsync(UserLoginInfoApiAddress);
-                if (response.IsSuccessStatusCode)
-                {
-                    string s = await response.Content.ReadAsStringAsync();
-                    var userLoginInfo = JsonConvert.DeserializeObject<UserLoginInfo>(s);
-
-                    return userLoginInfo;
-                }
-            }
-
-            return null;
+            get { return _isLoggedIn; }
+            set => SetProperty(
+                   ref _isLoggedIn,
+                   value,
+                   onChanged: () => LoginStatus = value ? "Logged in." : "Login failed.");
         }
 
-        public static IPublicClientApplication PublicClientApp => s_clientApp;
-        public static string[] Scopes { get; } = new[] { s_scope };
-        internal static string UserLoginInfoApiAddress => $"{s_webApiBaseAddress}/api/userlogininfo";
+        public string LoginStatus
+        {
+            get { return _loginStatus; }
+            set { SetProperty(ref _loginStatus, value); }
+        }
+
+        public string LoginInfo
+        {
+            get { return _loginInfo; }
+            set { SetProperty(ref _loginInfo, value); }
+        }
+
+        public string FrontPageContent
+        {
+            get { return _frontPageContent; }
+            set { SetProperty(ref _frontPageContent, value); }
+        }
     }
 }

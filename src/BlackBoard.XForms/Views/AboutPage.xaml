@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BlackBoard.Views.AboutPage"
-             xmlns:vm="clr-namespace:BlackBoard.ViewModels"
+             x:Class="Blackboard.Views.AboutPage"
+             xmlns:vm="clr-namespace:Blackboard.ViewModels"
              Title="{Binding Title}">
     
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <vm:AboutViewModel />
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
     
     <ContentPage.Resources>
         <ResourceDictionary>

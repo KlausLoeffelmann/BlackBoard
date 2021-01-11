@@ -90,9 +90,9 @@
     <AndroidResource Include="Resources\drawable\icon_feed.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BlackBoard.XForms\BlackBoard.csproj">
+    <ProjectReference Include="..\BlackBoard.XForms\BlackBoard.XF.csproj">
       <Project>{54fa477f-36d9-46fb-a6cb-5ce19678754c}</Project>
-      <Name>BlackBoard</Name>
+      <Name>BlackBoard.XF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

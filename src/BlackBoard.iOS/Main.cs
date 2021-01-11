@@ -5,7 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace BlackBoard.iOS
+namespace Blackboard.iOS
 {
     public class Application
     {
