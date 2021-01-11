@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Text;
+using System;
 
 #if NETSTANDARD2_0
 namespace Blackboard.ClientServices.ViewModels
@@ -51,6 +52,7 @@ namespace Blackboard.WinForms
         private string _frontPageContent;
         private string _loginInfo;
         private string _lastHttpStatus;
+        private UserInfo _currentUserInfo;
 
         private HttpClient HttpClient { get; } = new HttpClient();
         public IPublicClientApplication PublicClientApp => _clientApp;
@@ -79,9 +81,9 @@ namespace Blackboard.WinForms
         {
             if (IsLoggedIn)
             {
-                var jsonBlackboard = JsonConvert.SerializeObject(FrontPageContent);
-                var content = new StringContent(jsonBlackboard, Encoding.UTF8, "application/json");
-
+                var jsonUserInfo = JsonConvert.SerializeObject(_currentUserInfo);
+                var content = new StringContent(jsonUserInfo, Encoding.UTF8, "application/json");
+                
                 HttpResponseMessage response = await HttpClient.PutAsync(WebApi_UserInfo, content);
                 UpdateStatus(response);
             }
@@ -92,7 +94,7 @@ namespace Blackboard.WinForms
             LastHttpStatus = $"{response.StatusCode} - {response.ReasonPhrase}";
         }
 
-        private async Task<UserInfo> GetUserLoginInfoAsync()
+        private async Task<UserInfo> GetUserInfoAsync()
         {
             if (IsLoggedIn)
             {
@@ -101,9 +103,9 @@ namespace Blackboard.WinForms
                 {
                     UpdateStatus(response);
                     string s = await response.Content.ReadAsStringAsync();
-                    var userLoginInfo = JsonConvert.DeserializeObject<UserInfo>(s);
+                    var userInfo = JsonConvert.DeserializeObject<UserInfo>(s);
 
-                    return userLoginInfo;
+                    return userInfo;
                 }
             }
 
@@ -147,9 +149,9 @@ namespace Blackboard.WinForms
                 IsLoggedIn = true;
 
                 // Now get the Info from the WebService to fill the Data of the ViewModel.
-                var userInfo = await GetUserLoginInfoAsync();
-                LoginInfo = $"{userInfo.Name} - {userInfo.PreferredUserName}";
-                FrontPageContent = userInfo.FrontPage;
+                _currentUserInfo = await GetUserInfoAsync();
+                LoginInfo = $"{_currentUserInfo.Name} - {_currentUserInfo.PreferredUserName}";
+                FrontPageContent = _currentUserInfo.FrontPage;
             }
             else
             {
@@ -189,7 +191,12 @@ namespace Blackboard.WinForms
         public string FrontPageContent
         {
             get { return _frontPageContent; }
-            set { SetProperty(ref _frontPageContent, value); }
+            set
+            {
+                SetProperty(ref _frontPageContent, value);
+                _currentUserInfo.FrontPage = value;
+                _currentUserInfo.LastUpdated = DateTime.Now;
+            }
         }
     }
 }

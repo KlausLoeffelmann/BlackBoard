@@ -1,10 +1,13 @@
 ﻿using BlackboardWebApi.Model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 
@@ -17,18 +20,20 @@ namespace BlackboardWebApi.Controllers
     {
         private const string UserIdPropertyName = "preferred_username";
 
-        static readonly Dictionary<string, UserInfo> s_userStore = new Dictionary<string, UserInfo>();
+        static Dictionary<string, UserInfo> s_userStore = new Dictionary<string, UserInfo>();
 
         /// <summary>
         /// The Web API will only accept tokens 1) for users, and 
         /// 2) having the access_as_user scope for this API
         /// </summary>
         static readonly string[] scopeRequiredByApi = new string[] { "access_as_user" };
+        static bool s_dataLoaded;
 
-        internal static string GetUserId(ClaimsPrincipal user)
+        private IWebHostEnvironment _webHostEnvironment;
+
+        public UserInfoController(IWebHostEnvironment webHostEnvironment)
         {
-            string userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            return userId;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: api/values
@@ -38,6 +43,7 @@ namespace BlackboardWebApi.Controllers
             HttpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
 
             string userId = GetUserId(User);
+            EnsureDataLoaded();
             if (s_userStore.TryGetValue(userId, out var userInfo))
             {
                 return userInfo;
@@ -51,22 +57,73 @@ namespace BlackboardWebApi.Controllers
             blackboardHeadline += $"\n\r{(new string('*', blackboardHeadline.Length))}";
             userInfo.FrontPage = blackboardHeadline;
             s_userStore.Add(userId, userInfo);
+            SaveData();
             return userInfo;
         }
 
         // POST api/values
         [HttpPut]
-        public ActionResult Put(string frontPage)
+        public ActionResult Put([FromBody] UserInfo remoteUserInfo)
         {
             HttpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
+
             string userId = GetUserId(User);
             if (s_userStore.TryGetValue(userId, out var userInfo))
             {
-                userInfo.FrontPage = frontPage;
+                userInfo.FrontPage = remoteUserInfo.FrontPage;
+                userInfo.LastUpdated = remoteUserInfo.LastUpdated;
+                SaveData();
                 return StatusCode(StatusCodes.Status200OK);
             }
 
             return StatusCode(StatusCodes.Status404NotFound);
+        }
+
+        internal static string GetUserId(ClaimsPrincipal user)
+        {
+            string userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return userId;
+        }
+
+        internal void SaveData()
+        {
+            string docPath = Path.Combine(_webHostEnvironment.ContentRootPath, "App_Data/docs");
+            // serialize JSON directly to a file
+            var fileInfo = new FileInfo(docPath + "\\data.json");
+            if (!fileInfo.Directory.Exists)
+            {
+                fileInfo.Directory.Create();
+            }
+
+            using (StreamWriter file = System.IO.File.CreateText($"{docPath}\\data.json"))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(file, s_userStore);
+            }
+        }
+
+        internal void EnsureDataLoaded()
+        {
+            if (!s_dataLoaded)
+            {
+                string docPath = Path.Combine(_webHostEnvironment.ContentRootPath, "App_Data/docs");
+                var fileInfo = new FileInfo(docPath + "\\data.json");
+                if (!fileInfo.Exists)
+                {
+                    return;
+                }
+
+                // serialize JSON directly to a file
+                using (TextReader file = System.IO.File.OpenText($"{docPath}\\data.json"))
+                {
+                    JsonReader jsonReader = new JsonTextReader(file);
+
+                    JsonSerializer serializer = new JsonSerializer();
+                    s_userStore = serializer.Deserialize<Dictionary<string, UserInfo>>(jsonReader);
+                }
+
+                s_dataLoaded = true;
+            }
         }
     }
 }
