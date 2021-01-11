@@ -59,7 +59,9 @@ namespace Blackboard.WinForms
                 .WithDefaultRedirectUri()
                 .Build();
 
+#if NET5_0
             TokenCacheHelper.EnableSerialization(_clientApp.UserTokenCache);
+#endif
         }
 
         internal async Task ClearAccountsAsync(IEnumerable<IAccount> accounts)
@@ -75,7 +77,7 @@ namespace Blackboard.WinForms
             if (IsLoggedIn)
             {
                 HttpResponseMessage response = await HttpClient.GetAsync(UserLoginInfoApiAddress);
-                if (response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
                 {
                     string s = await response.Content.ReadAsStringAsync();
                     var userLoginInfo = JsonConvert.DeserializeObject<UserInfo>(s);

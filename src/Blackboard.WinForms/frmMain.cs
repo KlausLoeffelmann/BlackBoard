@@ -1,4 +1,4 @@
-﻿using Blackboard.ClientServices.ViewModels;
+﻿using Blackboard.WinForms;
 using System;
 using System.Windows.Forms;
 
