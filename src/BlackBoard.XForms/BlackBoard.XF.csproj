@@ -14,4 +14,10 @@
   <ItemGroup>
     <ProjectReference Include="..\BlackBoard.ClientServices\BlackBoard.ClientServices.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

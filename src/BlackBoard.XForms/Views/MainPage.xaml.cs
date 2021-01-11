@@ -1,4 +1,5 @@
-﻿using Blackboard.Models;
+﻿using Blackboard.ClientServices.ViewModels;
+using Blackboard.Models;
 using Blackboard.ViewModels;
 using Blackboard.Views;
 using System;
@@ -12,21 +13,21 @@ using Xamarin.Forms.Xaml;
 
 namespace Blackboard.Views
 {
-    public partial class ItemsPage : ContentPage
+    public partial class MainPage : ContentPage
     {
-        //ItemsViewModel _viewModel;
+        LoginViewModel _loginViewModel;
 
-        public ItemsPage()
+        public MainPage()
         {
             InitializeComponent();
 
-            //BindingContext = _viewModel = new ItemsViewModel();
+            _loginViewModel = new LoginViewModel();
+            BindingContext = _loginViewModel;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            //_viewModel.OnAppearing();
         }
     }
 }

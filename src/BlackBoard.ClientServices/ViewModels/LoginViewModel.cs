@@ -11,8 +11,12 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Text;
 using System;
+using System.Diagnostics;
 
 #if NETSTANDARD2_0
+using Xamarin.Forms;
+using Xamarin.Essentials;
+
 namespace Blackboard.ClientServices.ViewModels
 #else
 using Blackboard.ClientServices;
@@ -83,7 +87,7 @@ namespace Blackboard.WinForms
             {
                 var jsonUserInfo = JsonConvert.SerializeObject(_currentUserInfo);
                 var content = new StringContent(jsonUserInfo, Encoding.UTF8, "application/json");
-                
+
                 HttpResponseMessage response = await HttpClient.PutAsync(WebApi_UserInfo, content);
                 UpdateStatus(response);
             }
@@ -93,6 +97,21 @@ namespace Blackboard.WinForms
         {
             LastHttpStatus = $"{response.StatusCode} - {response.ReasonPhrase}";
         }
+
+#if NETSTANDARD2_0
+        private string RedirectUri
+        {
+            get
+            {
+                if (DeviceInfo.Platform == DevicePlatform.Android)
+                    return $"msauth://{s_clientId}/{{YOUR_SIGNATURE_HASH}}";
+                else if (DeviceInfo.Platform == DevicePlatform.iOS)
+                    return $"msauth.{s_clientId}://auth";
+
+                return string.Empty;
+            }
+        }
+#endif
 
         private async Task<UserInfo> GetUserInfoAsync()
         {
@@ -198,5 +217,57 @@ namespace Blackboard.WinForms
                 _currentUserInfo.LastUpdated = DateTime.Now;
             }
         }
+
+#if NETSTANDARD2_0
+        private Command _loginCommand = new Command(s =>
+        {
+            Debug.WriteLine("Command Executed!");
+        });
+
+        public Command LoginCommand
+        {
+            get { return _loginCommand; }
+        }
+
+        public async Task<bool> MobileSignInAsync()
+        {
+            try
+            {
+                var accounts = await PublicClientApp.GetAccountsAsync();
+                var firstAccount = accounts.FirstOrDefault();
+                var authResult = await PublicClientApp.AcquireTokenSilent(Scopes, firstAccount).ExecuteAsync();
+
+                // Store the access token securely for later use.
+                await SecureStorage.SetAsync("AccessToken", authResult?.AccessToken);
+
+                return true;
+            }
+            catch (MsalUiRequiredException)
+            {
+                try
+                {
+                    // This means we need to login again through the MSAL window.
+                    var authResult = await PublicClientApp.AcquireTokenInteractive(Scopes)
+                                                .WithParentActivityOrWindow(new object())
+                                                .ExecuteAsync();
+
+                    // Store the access token securely for later use.
+                    await SecureStorage.SetAsync("AccessToken", authResult?.AccessToken);
+
+                    return true;
+                }
+                catch (Exception ex2)
+                {
+                    Debug.WriteLine(ex2.ToString());
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return false;
+            }
+        }
+#endif
     }
 }
