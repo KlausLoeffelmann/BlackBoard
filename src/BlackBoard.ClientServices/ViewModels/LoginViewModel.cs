@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Text;
 
 #if NETSTANDARD2_0
 namespace Blackboard.ClientServices.ViewModels
@@ -20,11 +21,13 @@ namespace Blackboard.WinForms
 {
     public class LoginViewModel : BaseViewModel
     {
-        internal static string[] Scopes { get; } = new[] { s_scope };
-        internal static string UserLoginInfoApiAddress => $"{s_webApiBaseAddress}/api/userinfo";
-
         // Client ID from the Azure Web Portal App Registration.
         private static string s_clientId = "963d0788-3eaf-4a00-b692-955e2f68de03";
+        private static readonly string s_scope = $"{s_clientId}/access_as_user";
+        internal static string[] Scopes { get; } = new[] { s_scope };
+
+        internal static string WebApi_UserInfo => $"{s_webApiBaseAddress}/api/userinfo";
+
 
         // 'common' - For Work, School and Microsoft personal accounts.
         // Can also be 'rganisations' (Work/School accounts),
@@ -36,7 +39,6 @@ namespace Blackboard.WinForms
         // than the Azure Global Cloud (See national clouds / sovereign clouds at https://aka.ms/aadv2-national-clouds)
         private static readonly string s_instance = "https://login.microsoftonline.com/{0}/v2.0";
 
-        private static readonly string s_scope = $"{s_clientId}/access_as_user";
         private static readonly string s_authority = string.Format(CultureInfo.InvariantCulture, s_instance, s_tenant);
 
         // change this to the Azure Web App address for deployment.
@@ -48,6 +50,7 @@ namespace Blackboard.WinForms
         private string _loginStatus;
         private string _frontPageContent;
         private string _loginInfo;
+        private string _lastHttpStatus;
 
         private HttpClient HttpClient { get; } = new HttpClient();
         public IPublicClientApplication PublicClientApp => _clientApp;
@@ -72,13 +75,31 @@ namespace Blackboard.WinForms
             }
         }
 
+        public async Task UpdateBlackboardAsync()
+        {
+            if (IsLoggedIn)
+            {
+                var jsonBlackboard = JsonConvert.SerializeObject(FrontPageContent);
+                var content = new StringContent(jsonBlackboard, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await HttpClient.PutAsync(WebApi_UserInfo, content);
+                UpdateStatus(response);
+            }
+        }
+
+        private void UpdateStatus(HttpResponseMessage response)
+        {
+            LastHttpStatus = $"{response.StatusCode} - {response.ReasonPhrase}";
+        }
+
         private async Task<UserInfo> GetUserLoginInfoAsync()
         {
             if (IsLoggedIn)
             {
-                HttpResponseMessage response = await HttpClient.GetAsync(UserLoginInfoApiAddress);
-                if (!response.IsSuccessStatusCode)
+                HttpResponseMessage response = await HttpClient.GetAsync(WebApi_UserInfo);
+                if (response.IsSuccessStatusCode)
                 {
+                    UpdateStatus(response);
                     string s = await response.Content.ReadAsStringAsync();
                     var userLoginInfo = JsonConvert.DeserializeObject<UserInfo>(s);
 
@@ -127,7 +148,7 @@ namespace Blackboard.WinForms
 
                 // Now get the Info from the WebService to fill the Data of the ViewModel.
                 var userInfo = await GetUserLoginInfoAsync();
-                LoginInfo = $"{userInfo.Name}, {userInfo.FirstName} - {userInfo.Email}";
+                LoginInfo = $"{userInfo.Name} - {userInfo.PreferredUserName}";
                 FrontPageContent = userInfo.FrontPage;
             }
             else
@@ -157,6 +178,12 @@ namespace Blackboard.WinForms
         {
             get { return _loginInfo; }
             set { SetProperty(ref _loginInfo, value); }
+        }
+
+        public string LastHttpStatus
+        {
+            get { return _lastHttpStatus; }
+            set { SetProperty(ref _lastHttpStatus, value); }
         }
 
         public string FrontPageContent

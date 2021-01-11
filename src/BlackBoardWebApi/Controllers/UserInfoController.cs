@@ -27,8 +27,7 @@ namespace BlackboardWebApi.Controllers
 
         internal static string GetUserId(ClaimsPrincipal user)
         {
-            string nameIdentifier = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var userId = user.Claims.Where(item => item.Type == UserIdPropertyName).FirstOrDefault()?.Value;
+            string userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             return userId;
         }
 
@@ -47,6 +46,7 @@ namespace BlackboardWebApi.Controllers
             userInfo = new UserInfo();
             userInfo.Name = User.Claims.Where(item => item.Type == "name").FirstOrDefault()?.Value;
             userInfo.UserId = userId;
+            userInfo.PreferredUserName = User.Claims.Where(item => item.Type == UserIdPropertyName).FirstOrDefault()?.Value;
             var blackboardHeadline = $"{userInfo.Name}'s Blackboard Created at {DateTimeOffset.Now}";
             blackboardHeadline += $"\n\r{(new string('*', blackboardHeadline.Length))}";
             userInfo.FrontPage = blackboardHeadline;
@@ -55,7 +55,7 @@ namespace BlackboardWebApi.Controllers
         }
 
         // POST api/values
-        [HttpPost]
+        [HttpPut]
         public ActionResult Put(string frontPage)
         {
             HttpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
@@ -63,6 +63,7 @@ namespace BlackboardWebApi.Controllers
             if (s_userStore.TryGetValue(userId, out var userInfo))
             {
                 userInfo.FrontPage = frontPage;
+                return StatusCode(StatusCodes.Status200OK);
             }
 
             return StatusCode(StatusCodes.Status404NotFound);

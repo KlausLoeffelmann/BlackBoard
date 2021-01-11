@@ -30,9 +30,7 @@ namespace BlackBoardWinForms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.button1 = new System.Windows.Forms.Button();
-            this.lblLoginInfo = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.loginViewModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabFrontPage = new System.Windows.Forms.TabPage();
             this.txtFrontPage = new System.Windows.Forms.TextBox();
@@ -42,44 +40,21 @@ namespace BlackBoardWinForms
             this.tabPrevious = new System.Windows.Forms.TabPage();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.treeView1 = new System.Windows.Forms.TreeView();
-            this.loginViewModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tslLoginInfo = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tslLastHttpResponse = new System.Windows.Forms.ToolStripStatusLabel();
+            ((System.ComponentModel.ISupportInitialize)(this.loginViewModelBindingSource)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabFrontPage.SuspendLayout();
             this.tabToday.SuspendLayout();
             this.tabPrevious.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.loginViewModelBindingSource)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
+            // loginViewModelBindingSource
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(750, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(116, 35);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Login";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // lblLoginInfo
-            // 
-            this.lblLoginInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblLoginInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblLoginInfo.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.loginViewModelBindingSource, "", true));
-            this.lblLoginInfo.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblLoginInfo.Location = new System.Drawing.Point(18, 12);
-            this.lblLoginInfo.Name = "lblLoginInfo";
-            this.lblLoginInfo.Size = new System.Drawing.Size(726, 35);
-            this.lblLoginInfo.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 60);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 20);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Your Blackboard:";
+            this.loginViewModelBindingSource.DataSource = typeof(Blackboard.WinForms.LoginViewModel);
             // 
             // tabControl1
             // 
@@ -89,10 +64,10 @@ namespace BlackBoardWinForms
             this.tabControl1.Controls.Add(this.tabFrontPage);
             this.tabControl1.Controls.Add(this.tabToday);
             this.tabControl1.Controls.Add(this.tabPrevious);
-            this.tabControl1.Location = new System.Drawing.Point(18, 105);
+            this.tabControl1.Location = new System.Drawing.Point(18, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(847, 440);
+            this.tabControl1.Size = new System.Drawing.Size(1049, 599);
             this.tabControl1.TabIndex = 4;
             // 
             // tabFrontPage
@@ -101,7 +76,7 @@ namespace BlackBoardWinForms
             this.tabFrontPage.Location = new System.Drawing.Point(4, 29);
             this.tabFrontPage.Name = "tabFrontPage";
             this.tabFrontPage.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFrontPage.Size = new System.Drawing.Size(839, 407);
+            this.tabFrontPage.Size = new System.Drawing.Size(1041, 566);
             this.tabFrontPage.TabIndex = 0;
             this.tabFrontPage.Text = "Front Page";
             this.tabFrontPage.UseVisualStyleBackColor = true;
@@ -118,7 +93,7 @@ namespace BlackBoardWinForms
             this.txtFrontPage.Location = new System.Drawing.Point(16, 12);
             this.txtFrontPage.Multiline = true;
             this.txtFrontPage.Name = "txtFrontPage";
-            this.txtFrontPage.Size = new System.Drawing.Size(812, 382);
+            this.txtFrontPage.Size = new System.Drawing.Size(1014, 541);
             this.txtFrontPage.TabIndex = 3;
             // 
             // tabToday
@@ -128,7 +103,7 @@ namespace BlackBoardWinForms
             this.tabToday.Location = new System.Drawing.Point(4, 29);
             this.tabToday.Name = "tabToday";
             this.tabToday.Padding = new System.Windows.Forms.Padding(3);
-            this.tabToday.Size = new System.Drawing.Size(839, 407);
+            this.tabToday.Size = new System.Drawing.Size(839, 435);
             this.tabToday.TabIndex = 1;
             this.tabToday.Text = "Today";
             this.tabToday.UseVisualStyleBackColor = true;
@@ -148,10 +123,10 @@ namespace BlackBoardWinForms
             this.txtToday.BackColor = System.Drawing.SystemColors.InfoText;
             this.txtToday.Font = new System.Drawing.Font("Consolas", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtToday.ForeColor = System.Drawing.SystemColors.Window;
-            this.txtToday.Location = new System.Drawing.Point(17, 45);
+            this.txtToday.Location = new System.Drawing.Point(17, -428);
             this.txtToday.Multiline = true;
             this.txtToday.Name = "txtToday";
-            this.txtToday.Size = new System.Drawing.Size(803, 347);
+            this.txtToday.Size = new System.Drawing.Size(803, 848);
             this.txtToday.TabIndex = 3;
             // 
             // tabPrevious
@@ -160,7 +135,7 @@ namespace BlackBoardWinForms
             this.tabPrevious.Controls.Add(this.treeView1);
             this.tabPrevious.Location = new System.Drawing.Point(4, 29);
             this.tabPrevious.Name = "tabPrevious";
-            this.tabPrevious.Size = new System.Drawing.Size(839, 407);
+            this.tabPrevious.Size = new System.Drawing.Size(839, 435);
             this.tabPrevious.TabIndex = 2;
             this.tabPrevious.Text = "Previous Dates";
             this.tabPrevious.UseVisualStyleBackColor = true;
@@ -173,37 +148,72 @@ namespace BlackBoardWinForms
             this.textBox1.BackColor = System.Drawing.SystemColors.InfoText;
             this.textBox1.Font = new System.Drawing.Font("Consolas", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.textBox1.ForeColor = System.Drawing.SystemColors.Window;
-            this.textBox1.Location = new System.Drawing.Point(226, 13);
+            this.textBox1.Location = new System.Drawing.Point(226, -466);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(595, 379);
+            this.textBox1.Size = new System.Drawing.Size(595, 886);
             this.textBox1.TabIndex = 4;
             // 
             // treeView1
             // 
             this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.treeView1.Location = new System.Drawing.Point(21, 13);
+            this.treeView1.Location = new System.Drawing.Point(21, -466);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(181, 379);
+            this.treeView1.Size = new System.Drawing.Size(181, 886);
             this.treeView1.TabIndex = 0;
             // 
-            // loginViewModelBindingSource
+            // btnUpdate
             // 
-            this.loginViewModelBindingSource.DataSource = typeof(Blackboard.WinForms.LoginViewModel);
+            this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUpdate.Location = new System.Drawing.Point(906, 626);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(157, 43);
+            this.btnUpdate.TabIndex = 5;
+            this.btnUpdate.Text = "Update";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tslLoginInfo,
+            this.tslLastHttpResponse});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 558);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(933, 22);
+            this.statusStrip1.TabIndex = 6;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tslLoginInfo
+            // 
+            this.tslLoginInfo.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.tslLoginInfo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tslLoginInfo.Name = "tslLoginInfo";
+            this.tslLoginInfo.Size = new System.Drawing.Size(459, 16);
+            this.tslLoginInfo.Spring = true;
+            // 
+            // tslLastHttpResponse
+            // 
+            this.tslLastHttpResponse.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.tslLastHttpResponse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tslLastHttpResponse.Name = "tslLastHttpResponse";
+            this.tslLastHttpResponse.Size = new System.Drawing.Size(459, 16);
+            this.tslLastHttpResponse.Spring = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(876, 582);
+            this.ClientSize = new System.Drawing.Size(1078, 710);
+            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.lblLoginInfo);
-            this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Blackboard.NET";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.loginViewModelBindingSource)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabFrontPage.ResumeLayout(false);
             this.tabFrontPage.PerformLayout();
@@ -211,17 +221,14 @@ namespace BlackBoardWinForms
             this.tabToday.PerformLayout();
             this.tabPrevious.ResumeLayout(false);
             this.tabPrevious.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.loginViewModelBindingSource)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label lblLoginInfo;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabFrontPage;
         private System.Windows.Forms.TextBox txtFrontPage;
@@ -232,6 +239,10 @@ namespace BlackBoardWinForms
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.BindingSource loginViewModelBindingSource;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel tslLoginInfo;
+        private System.Windows.Forms.ToolStripStatusLabel tslLastHttpResponse;
     }
 }
 

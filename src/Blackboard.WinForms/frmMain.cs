@@ -12,6 +12,19 @@ namespace BlackBoardWinForms
         {
             InitializeComponent();
             _loginViewModel.Initialize();
+            _loginViewModel.PropertyChanged += _loginViewModel_PropertyChanged;
+        }
+
+        private void _loginViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(_loginViewModel.LoginInfo))
+            {
+                tslLoginInfo.Text = _loginViewModel.LoginInfo;
+            }
+            else if (e.PropertyName == nameof(_loginViewModel.LastHttpStatus))
+            {
+                tslLastHttpResponse.Text = _loginViewModel.LastHttpStatus;
+            }
         }
 
         private async void Form1_Load(object sender, EventArgs e)
@@ -39,6 +52,11 @@ namespace BlackBoardWinForms
             webBrowser.Show();
             await webBrowser.WaitForInitializeAsync();
             webBrowser.NavigateTo(new Uri("https://www.heise.de/"));
+        }
+
+        private async void btnUpdate_Click(object sender, EventArgs e)
+        {
+            await _loginViewModel.UpdateBlackboardAsync();
         }
     }
 }
