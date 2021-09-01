@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31622.56
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackboardWinForms", "BlackboardWinForms\BlackboardWinForms.csproj", "{330E3F4A-952B-4BE9-845A-0E4D087CED43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackboardWinForms", "BlackboardWinForms\BlackboardWinForms.csproj", "{330E3F4A-952B-4BE9-845A-0E4D087CED43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackBoardDataAccess", "BlackBoardDataAccess\BlackBoardDataAccess.csproj", "{4878C73A-3308-4954-AC1D-D93554070BAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackboardDataAccess", "BlackBoardDataAccess\BlackboardDataAccess.csproj", "{4878C73A-3308-4954-AC1D-D93554070BAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackboardModel", "BlackboardModel\BlackboardModel.csproj", "{419C9E76-79C4-4F9C-B424-59901C118DA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{4878C73A-3308-4954-AC1D-D93554070BAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4878C73A-3308-4954-AC1D-D93554070BAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4878C73A-3308-4954-AC1D-D93554070BAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{419C9E76-79C4-4F9C-B424-59901C118DA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{419C9E76-79C4-4F9C-B424-59901C118DA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{419C9E76-79C4-4F9C-B424-59901C118DA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{419C9E76-79C4-4F9C-B424-59901C118DA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

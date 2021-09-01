@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
+using BlackBoard.Model;
 
-namespace BlackBoardDataAccess
+namespace BlackBoard.DataAccess
 {
     public class BlackboardContext : DbContext
     {

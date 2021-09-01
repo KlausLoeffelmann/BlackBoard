@@ -1,4 +1,4 @@
-﻿namespace BlackBoardDataAccess
+﻿namespace BlackBoard.Model
 {
     public enum Scope
     {

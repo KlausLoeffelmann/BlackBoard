@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace BlackBoardDataAccess.Migrations
+namespace BlackBoard.DataAccess.Migrations
 {
     public partial class Initial : Migration
     {
