@@ -40,8 +40,8 @@ namespace BlackboardWinForms
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.blackBoardControl1 = new BlackboardWinForms.BlackBoardControl();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -133,6 +133,14 @@ namespace BlackboardWinForms
             this.tabPage1.Text = "Today\'s";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // blackBoardControl1
+            // 
+            this.blackBoardControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.blackBoardControl1.Location = new System.Drawing.Point(2, 2);
+            this.blackBoardControl1.Name = "blackBoardControl1";
+            this.blackBoardControl1.Size = new System.Drawing.Size(1046, 737);
+            this.blackBoardControl1.TabIndex = 0;
+            // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 34);
@@ -143,13 +151,6 @@ namespace BlackboardWinForms
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // blackBoardControl1
-            // 
-            this.blackBoardControl1.Location = new System.Drawing.Point(31, 38);
-            this.blackBoardControl1.Name = "blackBoardControl1";
-            this.blackBoardControl1.Size = new System.Drawing.Size(981, 666);
-            this.blackBoardControl1.TabIndex = 0;
             // 
             // FormMain
             // 
