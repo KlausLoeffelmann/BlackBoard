@@ -54,6 +54,7 @@ namespace BlackboardWinForms
             this._tlpMain.Controls.Add(this.dataGridView1, 0, 3);
             this._tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this._tlpMain.Location = new System.Drawing.Point(0, 0);
+            this._tlpMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._tlpMain.Name = "_tlpMain";
             this._tlpMain.RowCount = 5;
             this._tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -61,7 +62,7 @@ namespace BlackboardWinForms
             this._tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75F));
             this._tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._tlpMain.Size = new System.Drawing.Size(835, 609);
+            this._tlpMain.Size = new System.Drawing.Size(1109, 762);
             this._tlpMain.TabIndex = 0;
             // 
             // _tlpEntryLabelAndInfoLabel
@@ -73,30 +74,32 @@ namespace BlackboardWinForms
             this._tlpEntryLabelAndInfoLabel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._tlpEntryLabelAndInfoLabel.Controls.Add(this._lblEntryInfo, 0, 0);
             this._tlpEntryLabelAndInfoLabel.Controls.Add(this._btnFilter, 1, 0);
-            this._tlpEntryLabelAndInfoLabel.Location = new System.Drawing.Point(3, 3);
-            this._tlpEntryLabelAndInfoLabel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this._tlpEntryLabelAndInfoLabel.Location = new System.Drawing.Point(4, 4);
+            this._tlpEntryLabelAndInfoLabel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 7);
             this._tlpEntryLabelAndInfoLabel.Name = "_tlpEntryLabelAndInfoLabel";
             this._tlpEntryLabelAndInfoLabel.RowCount = 1;
             this._tlpEntryLabelAndInfoLabel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._tlpEntryLabelAndInfoLabel.Size = new System.Drawing.Size(829, 41);
+            this._tlpEntryLabelAndInfoLabel.Size = new System.Drawing.Size(1101, 50);
             this._tlpEntryLabelAndInfoLabel.TabIndex = 0;
             // 
             // _lblEntryInfo
             // 
             this._lblEntryInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this._lblEntryInfo.AutoSize = true;
-            this._lblEntryInfo.Location = new System.Drawing.Point(3, 16);
+            this._lblEntryInfo.Location = new System.Drawing.Point(4, 20);
+            this._lblEntryInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this._lblEntryInfo.Name = "_lblEntryInfo";
-            this._lblEntryInfo.Size = new System.Drawing.Size(344, 25);
+            this._lblEntryInfo.Size = new System.Drawing.Size(392, 30);
             this._lblEntryInfo.TabIndex = 0;
             this._lblEntryInfo.Text = "#New Entry by #you from #today, #10:22";
             // 
             // _btnFilter
             // 
             this._btnFilter.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this._btnFilter.Location = new System.Drawing.Point(726, 3);
+            this._btnFilter.Location = new System.Drawing.Point(977, 4);
+            this._btnFilter.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._btnFilter.Name = "_btnFilter";
-            this._btnFilter.Size = new System.Drawing.Size(100, 35);
+            this._btnFilter.Size = new System.Drawing.Size(120, 42);
             this._btnFilter.TabIndex = 1;
             this._btnFilter.Text = "Filter...";
             this._btnFilter.UseVisualStyleBackColor = true;
@@ -112,21 +115,21 @@ namespace BlackboardWinForms
             this._tlpEntryTextBoxAndButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._tlpEntryTextBoxAndButton.Controls.Add(this._addEditButton, 1, 0);
             this._tlpEntryTextBoxAndButton.Controls.Add(this._txtNewEditEntry, 0, 0);
-            this._tlpEntryTextBoxAndButton.Location = new System.Drawing.Point(3, 53);
-            this._tlpEntryTextBoxAndButton.Margin = new System.Windows.Forms.Padding(3, 3, 3, 20);
+            this._tlpEntryTextBoxAndButton.Location = new System.Drawing.Point(4, 65);
+            this._tlpEntryTextBoxAndButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 24);
             this._tlpEntryTextBoxAndButton.Name = "_tlpEntryTextBoxAndButton";
             this._tlpEntryTextBoxAndButton.RowCount = 1;
             this._tlpEntryTextBoxAndButton.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._tlpEntryTextBoxAndButton.Size = new System.Drawing.Size(829, 110);
+            this._tlpEntryTextBoxAndButton.Size = new System.Drawing.Size(1101, 139);
             this._tlpEntryTextBoxAndButton.TabIndex = 1;
             // 
             // _addEditButton
             // 
             this._addEditButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._addEditButton.Location = new System.Drawing.Point(719, 3);
-            this._addEditButton.Margin = new System.Windows.Forms.Padding(30, 3, 3, 3);
+            this._addEditButton.Location = new System.Drawing.Point(969, 4);
+            this._addEditButton.Margin = new System.Windows.Forms.Padding(36, 4, 4, 4);
             this._addEditButton.Name = "_addEditButton";
-            this._addEditButton.Size = new System.Drawing.Size(107, 41);
+            this._addEditButton.Size = new System.Drawing.Size(128, 49);
             this._addEditButton.TabIndex = 1;
             this._addEditButton.Text = "#AddEdit";
             this._addEditButton.UseVisualStyleBackColor = true;
@@ -136,18 +139,20 @@ namespace BlackboardWinForms
             this._txtNewEditEntry.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._txtNewEditEntry.Location = new System.Drawing.Point(3, 3);
+            this._txtNewEditEntry.Location = new System.Drawing.Point(4, 4);
+            this._txtNewEditEntry.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._txtNewEditEntry.Multiline = true;
             this._txtNewEditEntry.Name = "_txtNewEditEntry";
-            this._txtNewEditEntry.Size = new System.Drawing.Size(683, 104);
+            this._txtNewEditEntry.Size = new System.Drawing.Size(925, 131);
             this._txtNewEditEntry.TabIndex = 2;
             // 
             // lblHistory
             // 
             this.lblHistory.AutoSize = true;
-            this.lblHistory.Location = new System.Drawing.Point(3, 183);
+            this.lblHistory.Location = new System.Drawing.Point(4, 228);
+            this.lblHistory.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblHistory.Name = "lblHistory";
-            this.lblHistory.Size = new System.Drawing.Size(206, 25);
+            this.lblHistory.Size = new System.Drawing.Size(235, 30);
             this.lblHistory.TabIndex = 2;
             this.lblHistory.Text = "Blackboard from #today";
             // 
@@ -157,20 +162,22 @@ namespace BlackboardWinForms
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 211);
+            this.dataGridView1.Location = new System.Drawing.Point(4, 262);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.Size = new System.Drawing.Size(829, 394);
+            this.dataGridView1.Size = new System.Drawing.Size(1101, 495);
             this.dataGridView1.TabIndex = 3;
             // 
             // BlackBoardControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this._tlpMain);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "BlackBoardControl";
-            this.Size = new System.Drawing.Size(835, 609);
+            this.Size = new System.Drawing.Size(1109, 762);
             this._tlpMain.ResumeLayout(false);
             this._tlpMain.PerformLayout();
             this._tlpEntryLabelAndInfoLabel.ResumeLayout(false);
