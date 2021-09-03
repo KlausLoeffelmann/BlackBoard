@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackboardDataAccess", "Bla
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackboardModel", "BlackboardModel\BlackboardModel.csproj", "{419C9E76-79C4-4F9C-B424-59901C118DA3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackboardViewModel", "BlackboardViewModel\BlackboardViewModel.csproj", "{ABE07B73-462A-4DDE-AF88-24B30F0AAFB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackboardViewModels", "BlackboardViewModel\BlackboardViewModels.csproj", "{ABE07B73-462A-4DDE-AF88-24B30F0AAFB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsSupport", "WinFormsSupport\WinFormsSupport.csproj", "{2C6FBE5F-A6A1-4414-9379-D2D3A327B1B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsSupport", "WinFormsSupport\WinFormsSupport.csproj", "{2C6FBE5F-A6A1-4414-9379-D2D3A327B1B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

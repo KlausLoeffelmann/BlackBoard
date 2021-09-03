@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlackboardModel\BlackboardModel.csproj" />
+    <ProjectReference Include="..\BlackboardViewModel\BlackboardViewModels.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,4 +6,10 @@
 	  <LangVersion>10</LangVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="WinformsService\**" />
+    <EmbeddedResource Remove="WinformsService\**" />
+    <None Remove="WinformsService\**" />
+  </ItemGroup>
+
 </Project>
