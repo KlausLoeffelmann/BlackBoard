@@ -1,5 +1,6 @@
 ﻿using BlackBoard.Model;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -9,14 +10,14 @@ namespace BlackboardWinForms
     {
         public event EventHandler? BlackBoardChanged;
 
-        private BindingList<Entry>? _blackboardEntries;
+        private ObservableCollection<Entry>? _blackboardEntries;
 
         public BlackBoardControl()
         {
             InitializeComponent();
         }
 
-        public BindingList<Entry>? BlackboardEntries
+        public ObservableCollection<Entry>? BlackboardEntries
         { 
             get => _blackboardEntries;
             set

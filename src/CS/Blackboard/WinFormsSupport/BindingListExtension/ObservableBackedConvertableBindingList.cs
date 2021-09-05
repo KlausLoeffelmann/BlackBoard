@@ -2,10 +2,13 @@
 // <copyright file="ObservableBackedBindingList`.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
+//
 //---------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 
 namespace System.Windows.Forms.Data
@@ -17,25 +20,27 @@ namespace System.Windows.Forms.Data
     /// vice-versa.
     /// </summary>
     /// <typeparam name="T">The list element type.</typeparam>
-    internal class ObservableBackedBindingList<T> : SortableBindingList<T>
+    internal class ObservableBackedConvertableBindingList<T, U> : SortableBindingList<T>
     {
         private bool _addingNewInstance;
         private T? _addNewInstance;
         private T? _cancelNewInstance;
 
-        private readonly ObservableCollection<T> _obervableCollection;
+        private readonly ObservableCollection<U> _observableCollection;
         private bool _inCollectionChanged;
         private bool _changingObservableCollection;
+        private TypeConverter _typeConverter;
 
         /// <summary>
         /// Initializes a new instance of a binding list backed by the given <see cref="ObservableCollection{T}"/>
         /// </summary>
-        /// <param name="obervableCollection">The obervable collection.</param>
-        public ObservableBackedBindingList(ObservableCollection<T> obervableCollection)
-            : base(obervableCollection.ToList())
+        /// <param name="observableCollection">The observable collection.</param>
+        public ObservableBackedConvertableBindingList(ObservableCollection<U> observableCollection, TypeConverter elementTypeConverter)
+            : base(observableCollection.Select(item => (T)elementTypeConverter.ConvertFrom(item)).ToList())
         {
-            _obervableCollection = obervableCollection;
-            _obervableCollection.CollectionChanged += ObservableCollectionChanged;
+            _observableCollection = observableCollection;
+            _observableCollection.CollectionChanged += ObservableCollectionChanged;
+            _typeConverter = elementTypeConverter;
         }
 
         /// <summary>
@@ -214,7 +219,7 @@ namespace System.Windows.Forms.Data
                     // We don't want to try to put that change into the ObservableCollection again,
                     // so we set a flag to prevent this.
                     _changingObservableCollection = true;
-                    _obervableCollection.Add(item!);
+                    _observableCollection.Add((U)_typeConverter.ConvertTo(item, typeof(U))!);
                 }
                 finally
                 {
@@ -239,7 +244,7 @@ namespace System.Windows.Forms.Data
                     // We don't want to try to put that change into the ObservableCollection again,
                     // so we set a flag to prevent this.
                     _changingObservableCollection = true;
-                    _obervableCollection.Remove(item);
+                    _observableCollection.Remove((U)_typeConverter.ConvertTo(item, typeof(U))!);
                 }
                 finally
                 {

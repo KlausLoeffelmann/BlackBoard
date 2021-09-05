@@ -10,6 +10,11 @@
   <ItemGroup>
     <ProjectReference Include="..\BlackboardModel\BlackboardModel.csproj" />
     <ProjectReference Include="..\BlackboardViewModel\BlackboardViewModels.csproj" />
+    <ProjectReference Include="..\WinFormsSupport\WinFormsSupport.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>
